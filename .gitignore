@@ -42,3 +42,6 @@
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# My test files
+test.*
