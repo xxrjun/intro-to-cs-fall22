@@ -129,8 +129,6 @@ bool is_solved(int counter, int x, int *x_linked_ring);                         
 
 ### Still Some Problems There
 
-- 如果初始化 input state 全是 0?
-
 - `opreation_info` 是否可以不要存在在 main 中? => How to fixed Segmetantion fault if I want to create and return array in a function?
 
 ## Bonus
