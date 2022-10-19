@@ -1,3 +1,14 @@
+/**
+ * @file PA1_bonus.cpp
+ * @author NCU MIS 109403019 鄒翔宇 [@xxrjun](https://github.com/xxrjun)
+ * @brief
+ * @version 1.0
+ * @date 2022-10-12
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include <iostream>
 #include <cmath>
 #include <iomanip>
@@ -11,6 +22,8 @@ bool isInvalidVaccinedDays(int days);                                           
 bool isInvalidAge(int age);                                                         // check the input age is valid or not.
 bool hasEnoughData(int age, int days, string b);                                    // check the data is enough.
 double getAntiBodyConcentration(int age, int days, string b, bool prior_infection); // get antibody concentration round off to the 2nd decimal place.
+bool isInvalidDate(long int date);                                                  // check the date is valid or not.
+int getDaysBetweenTwoDates(long int date1, long int date2);                         // get the days between two dates.
 int countLeapYears(int years, int months);                                          // count how many leap years.
 int getTotalDays(int years, int months, int days);                                  // get total days.
 
@@ -67,15 +80,15 @@ int main()
         }
         else if (operation == "2") // input vaccine data
         {
-            cout << "Enter how many days pass by since you were vaccinated: ";
-            cin >> days_pass_by_vaccinated;
+            cout << "Enter the date you were vaccinated(yyyymmdd): ";
+            cin >> vaccinated_date;
 
-            /* Check the input days is valid or not. */
-            while (isInvalidVaccinedDays(days_pass_by_vaccinated))
+            /* Check the input date is valid or not. */
+            while (isInvalidDate(vaccinated_date))
             {
                 cout << "Invalid input !Please enter again" << endl;
                 cout << ">>>";
-                cin >> days_pass_by_vaccinated;
+                cin >> vaccinated_date;
             }
 
             cout
@@ -121,6 +134,19 @@ int main()
         }
         else if (operation == "R") // calculate antibody
         {
+            long int today_date;
+            cout << "Enter the date today(yyyymmdd): ";
+            cin >> today_date;
+
+            /* Check the input date is valid or not. */
+            while (isInvalidDate(today_date))
+            {
+                cout << "Invalid input !Please enter again" << endl;
+                cout << ">>>";
+                cin >> today_date;
+            }
+
+            days_pass_by_vaccinated = getDaysBetweenTwoDates(vaccinated_date, today_date);
 
             if (hasEnoughData(age, days_pass_by_vaccinated, vaccine_brand))
             {
@@ -200,6 +226,34 @@ int countLeapYears(int years, int months)
         years--;
 
     return years / 4 - years / 100 + years / 400;
+}
+
+bool isInvalidDate(long int date)
+{
+    if (date < 20190101 || date > 20221231)
+    {
+        return true;
+    }
+
+    int y, m, d;
+
+    d = (int)date % 100;
+    date = (long int)date / 100;
+    m = (int)date % 100;
+    date = (long int)date / 100;
+    y = (int)date;
+
+    if (m < 0 || m > 12)
+    {
+        return true;
+    }
+
+    if (d > monthDays[m - 1])
+    {
+        return true;
+    }
+
+    return false;
 }
 
 double getAntiBodyConcentration(int age, int days, string b, bool prior_infection)
