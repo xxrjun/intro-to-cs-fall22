@@ -33,7 +33,6 @@ int perfect_steps_to_solve(int x);                                              
 int main()
 {
     int x = 0;
-    int *x_linked_ring = new int[x];
     int *operation_info = new int[2];
 
     /* Get how many X-Linekd Ring would be solve. */
@@ -41,6 +40,8 @@ int main()
     cout << "How many X-Linked Ring do you want to solve?" << endl;
     cin >> x;
     cout << endl;
+
+    int *x_linked_ring = new int[x];
 
     /* Get input state of X-Linked Ring. */
     cout << "What the " << x << "-Linked Ring look like?" << endl;
@@ -150,11 +151,10 @@ void S_rule(int end_idx, int *x_linked_ring, int *operation_info)
     /* Done S_rule and return X-Linked Ring*/
     if (x_linked_ring[end_idx] == 1)
     {
-        operation_info[0] = end_idx;
+        operation_info[0] = end_idx - 1;
 
         if (x_linked_ring[end_idx - 1] == 0)
         {
-
             x_linked_ring[end_idx - 1] = 1;
             operation_info[1] = 1;
         }
@@ -176,11 +176,10 @@ void S_rule(int end_idx, int *x_linked_ring, int *operation_info)
  *
  * @param end_idx
  * @param x_linked_ring
- * @return int* x_linked_ring after R-Rule
  */
 void R_rule(int end_idx, int *x_linked_ring, int *operation_info)
 {
-    operation_info[0] = end_idx + 1;
+    operation_info[0] = end_idx;
 
     if (x_linked_ring[end_idx] == 0)
     {
@@ -236,14 +235,13 @@ int solve_with_a_rule(char rule, int x, int *x_linked_ring, int *operation_info)
     }
     else
     {
-
         R_rule(x - 1, x_linked_ring, operation_info);
         rule = 'S';
     }
 
     string turn = operation_info[1] == 1 ? "up" : "down";
 
-    cout << "!! Turn the " << get_ordinal(operation_info[0]) << " ring " << turn << " !!" << endl;
+    cout << "!! Turn the " << get_ordinal(operation_info[0] + 1) << " ring " << turn << " !!" << endl;
     cout << "The rings state of " << x << "-Linked Ring is: ";
     display_x_linked_ring(x, x_linked_ring);
     cout << endl;
