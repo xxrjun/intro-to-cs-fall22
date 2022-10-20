@@ -16,18 +16,22 @@
 using namespace std;
 
 /* Declaration of functions */
-void get_input_state(int x, int *x_linked_ring);
-void get_input_state(int counter, int x, int *x_linked_ring);                     // helper function for get_input_state()
-void display_x_linked_ring(int x, int *x_linked_ring);                            // Display entire X-Linked ring
-void display_x_linked_ring(int counter, int x, int *x_linked_ring);               // helper function for display_x_linked_ring()
-void S_rule(int end_idx, int *x_linked_ring, int *operation_info);                // Doing S-Rule, operation info [idx_turned, turn_up_or_down(1:up, 0:down)]
-void R_rule(int end_idx, int *x_linked_ring, int *operation_info);                // Doing R-Rule, operation info [idx_turned, turn_up_or_down(1:up, 0:down)]
-int solving_rings(int x, int *x_linked_ring, int *operation_info);                // Solving X-Linked rings, return total steps to solve.
-int solve_with_a_rule(char rule, int x, int *x_linked_ring, int *operation_info); // helper function for solving_rings(). Solve X-Linked Rings with S or R Rule
-bool is_solved(int x, int *x_linked_ring);                                        // Returns true if X-Linked Rings is solved.
-bool is_solved(int counter, int x, int *x_linked_ring);                           // helper function for is_solved()
-string get_ordinal(int num);                                                      // Returns the ordinal string of input number.
-int perfect_steps_to_solve(int x);                                                // [unused] Returns the number of minimum steps to solve.
+void get_input_state(int x, int *x_linked_ring);                   // Get the input state of X-Linked Ring from user.
+void display_x_linked_ring(int x, int *x_linked_ring);             // Display entire X-Linked ring
+void S_rule(int end_idx, int *x_linked_ring, int *operation_info); // Doing S-Rule, operation info [idx_turned, turn_up_or_down(1:up, 0:down)]
+void R_rule(int end_idx, int *x_linked_ring, int *operation_info); // Doing R-Rule, operation info [idx_turned, turn_up_or_down(1:up, 0:down)]
+int solving_rings(int x, int *x_linked_ring, int *operation_info); // Solving X-Linked rings, return total steps to solve.
+int finite_automation_function(int x, const int *input);           // returns the last number of input after doing finite automation function for solving X-Linked rings
+bool is_solved(int x, int *x_linked_ring);                         // Returns true if X-Linked Rings is solved.
+string get_ordinal(int num);                                       // Returns the ordinal string of input number.
+int perfect_steps_to_solve(int x);                                 // [unused] Returns the number of minimum steps to solve.
+
+/* Declaration of helper functions*/
+void get_input_state(int counter, int x, int *x_linked_ring);                                     // helper function for get_input_state()
+void display_x_linked_ring(int counter, int x, int *x_linked_ring);                               // helper function for display_x_linked_ring()
+int solve_with_a_rule(char rule, int x, int *x_linked_ring, int *operation_info);                 // helper function for solving_rings(). Solve X-Linked Rings with S or R Rule
+int finite_automation_function(char mode, int counter, int x, int last_number, const int *input); // helper function for finite_automation_function.
+bool is_solved(int counter, int x, int *x_linked_ring);                                           // helper function for is_solved()
 
 /* Entry point */
 int main()
@@ -205,13 +209,16 @@ int solving_rings(int x, int *x_linked_ring, int *operation_info)
 
     char start_rule = '0';
     int counter = 0;
-    if (x_linked_ring[x - 1] == 1) // odd number, start solving steps in S->R->S->...
+
+    int last_number_after_automation_function = finite_automation_function(x, x_linked_ring);
+
+    if (last_number_after_automation_function == 0) // even number, start solving steps in S->R->S->...
     {
         cout << "Start with S-rule !!" << endl;
         start_rule = 'S';
         counter = solve_with_a_rule(start_rule, x, x_linked_ring, operation_info);
     }
-    else // even number, start solving steps in R->S->R->...
+    else // odd number, start solving steps in R->S->R->...
     {
         cout << "Start with R-rule !!" << endl;
         start_rule = 'R';
@@ -247,6 +254,57 @@ int solve_with_a_rule(char rule, int x, int *x_linked_ring, int *operation_info)
     cout << endl;
 
     return 1 + solve_with_a_rule(rule, x, x_linked_ring, operation_info);
+}
+
+/**
+ * @brief Finite Automation function for sovling X-Linked Ring
+ *
+ * @param input
+ * @return int
+ */
+int finite_automation_function(int x, const int *input)
+{
+
+    char mode = 'n'; // n meas normal, s means 0, 1 should be swtich
+    int last_number = 0;
+
+    last_number = finite_automation_function(mode, 0, x, last_number, input);
+
+    return last_number;
+}
+
+int finite_automation_function(char mode, int counter, int x, int last_number, const int *input)
+{
+    if (counter == x)
+    {
+        return last_number;
+    }
+
+    int input_num = input[counter];
+
+    if (mode == 'n') // normal mode
+    {
+
+        last_number = input_num;
+
+        if (last_number == 1)
+        {
+            /* Change to be switch mode*/
+            mode = 's';
+        }
+    }
+    else // switch mode
+    {
+        last_number = 1 ? input_num == 0 : 0;
+
+        if (last_number == 0)
+        {
+            /* Change to be normal mode*/
+            mode = 'n';
+        }
+    }
+
+    return finite_automation_function(mode, counter + 1, x, last_number, input);
 }
 
 /**
