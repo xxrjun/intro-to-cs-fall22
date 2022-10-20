@@ -16,7 +16,7 @@
 
 此處分析與圖片皆出自 [Reference 1](#reference)
 
-![九連環](src/九連環示意圖.png)
+![九連環](src/9-linked-rings.png)
 
 ### 1-1. 數學模型與解法
 
