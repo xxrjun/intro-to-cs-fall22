@@ -18,8 +18,8 @@ using namespace std;
 /* Declaration of functions */
 void get_input_state(int x, int *x_linked_ring);                   // Get the input state of X-Linked Ring from user.
 void display_x_linked_ring(int x, int *x_linked_ring);             // Display entire X-Linked ring
-void S_rule(int end_idx, int *x_linked_ring, int *operation_info); // Doing S-Rule, operation info [idx_turned, turn_up_or_down(1:up, 0:down)]
-void R_rule(int end_idx, int *x_linked_ring, int *operation_info); // Doing R-Rule, operation info [idx_turned, turn_up_or_down(1:up, 0:down)]
+void S_rule(int end_idx, int *x_linked_ring, int *operation_info); // Doing S-Rule, operation info [idx_turned, turn_on_or_down(1:on, 0:down)]
+void R_rule(int end_idx, int *x_linked_ring, int *operation_info); // Doing R-Rule, operation info [idx_turned, turn_on_or_down(1:on, 0:down)]
 int solving_rings(int x, int *x_linked_ring, int *operation_info); // Solving X-Linked rings, return total steps to solve.
 int finite_automation_function(int x, const int *input);           // returns the last number of input after doing finite automation function for solving X-Linked rings
 bool is_solved(int x, int *x_linked_ring);                         // Returns true if X-Linked Rings is solved.
@@ -57,11 +57,11 @@ int main()
     /* Print out current state of X-Linked Ring and two rules effects*/
     cout << "The rings state of " << x << "-Linked Ring is: ";
     display_x_linked_ring(x, x_linked_ring);
-    cout << "If run R-rule once,the rings state of " << x << "-Linked Ring is : ";
+    cout << "If run R-rule once, the rings state of " << x << "-Linked Ring is: ";
     R_rule(x - 1, x_linked_ring, operation_info);
     display_x_linked_ring(x, x_linked_ring);
     R_rule(x - 1, x_linked_ring, operation_info); // reverse back;
-    cout << "If run S-rule once,the rings state of " << x << "-Linked Ring is : ";
+    cout << "If run S-rule once, the rings state of " << x << "-Linked Ring is: ";
     S_rule(x - 1, x_linked_ring, operation_info);
     display_x_linked_ring(x, x_linked_ring);
     S_rule(x - 1, x_linked_ring, operation_info); // reverse back;
@@ -72,7 +72,7 @@ int main()
     cout << endl;
 
     /* Finished, print steps to solve and say goodbye.*/
-    cout << "The " << x << "-Linked Ring is solved in " << total_steps << " step." << endl;
+    cout << "The " << x << "-Linked Ring is solved in " << total_steps << " steps." << endl;
     cout << "Thanks for using!! Goodbye ~" << endl;
 
     return 0;
@@ -208,7 +208,7 @@ void R_rule(int end_idx, int *x_linked_ring, int *operation_info)
  */
 int solving_rings(int x, int *x_linked_ring, int *operation_info)
 {
-    cout << "That start to solve the " << x << "-Linked Ring." << endl;
+    cout << "Let's start to solve the " << x << "-Linked Ring." << endl;
 
     char start_rule = '0';
     int counter = 0;
@@ -249,12 +249,11 @@ int solve_with_a_rule(char rule, int x, int *x_linked_ring, int *operation_info)
         rule = 'S';
     }
 
-    string turn = operation_info[1] == 1 ? "up" : "down";
+    string turn = operation_info[1] == 1 ? "on" : "down";
 
     cout << "!! Turn the " << get_ordinal(operation_info[0] + 1) << " ring " << turn << " !!" << endl;
     cout << "The rings state of " << x << "-Linked Ring is: ";
     display_x_linked_ring(x, x_linked_ring);
-    cout << endl;
 
     return 1 + solve_with_a_rule(rule, x, x_linked_ring, operation_info);
 }
