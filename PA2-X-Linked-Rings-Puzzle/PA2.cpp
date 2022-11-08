@@ -51,7 +51,7 @@ int main()
     cout << "What the " << x << "-Linked Ring look like?" << endl;
     cout << "Please enter the rings state from inside to outside." << endl;
     cout << "If the ring is on the sword, please input 1. Otherwise, please enter 0." << endl;
-    get_input_state(0, x, x_linked_ring); /* Using recursion function to get user */
+    get_input_state(x, x_linked_ring); /* Using recursion function to get user */
     cout << endl;
 
     /* Print out current state of X-Linked Ring and two rules effects*/
@@ -142,7 +142,7 @@ void display_x_linked_ring(int counter, int x, int *x_linked_ring)
  *
  * @param end_idx
  * @param x_linked_ring
- * @return int* x_linked_ring after S-Rule
+ * @param operation_info
  */
 void S_rule(int end_idx, int *x_linked_ring, int *operation_info)
 {
@@ -180,6 +180,7 @@ void S_rule(int end_idx, int *x_linked_ring, int *operation_info)
  *
  * @param end_idx
  * @param x_linked_ring
+ * @param operation_info
  */
 void R_rule(int end_idx, int *x_linked_ring, int *operation_info)
 {
@@ -202,6 +203,8 @@ void R_rule(int end_idx, int *x_linked_ring, int *operation_info)
  *
  * @param x
  * @param x_linked_ring
+ * @param operation_info
+ * @return int
  */
 int solving_rings(int x, int *x_linked_ring, int *operation_info)
 {
@@ -259,6 +262,7 @@ int solve_with_a_rule(char rule, int x, int *x_linked_ring, int *operation_info)
 /**
  * @brief Finite Automation function for sovling X-Linked Ring
  *
+ * @param x
  * @param input
  * @return int
  */
