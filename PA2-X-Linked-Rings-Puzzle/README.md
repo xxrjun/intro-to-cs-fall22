@@ -65,7 +65,6 @@
 int main()
 {
     int x = 0;
-    int *x_linked_ring = new int[x];
     int *operation_info = new int[2];
 
     /* Get how many X-Linekd Ring would be solve. */
@@ -73,6 +72,8 @@ int main()
     cout << "How many X-Linked Ring do you want to solve?" << endl;
     cin >> x;
     cout << endl;
+
+    int *x_linked_ring = new int[x];
 
     /* Get input state of X-Linked Ring. */
     cout << "What the " << x << "-Linked Ring look like?" << endl;
@@ -332,6 +333,7 @@ int finite_automation_function(char mode, int counter, int x, int last_number, c
 ### Still Some Problems There
 
 - `opreation_info` 是否可以不要存在在 main 中? => How to fixed Segmetantion fault if I want to create and return array in a function?
+  - Using [Smart Pointer](https://learn.microsoft.com/zh-tw/cpp/cpp/smart-pointers-modern-cpp?view=msvc-170)?
 
 # Bonus
 
