@@ -2,6 +2,8 @@
 
 女友上中央電機的計算機概論課程的作業蠻好玩的欸
 
+2022/11/24: 因未經教授授權，思考過後後選擇移除題目之 PDF。
+
 ## Program Assinment
 
 | Program Assignment#       | Problems                                                                                                  | Code                                       | Bonus                                          | 撰寫思路                                        |
